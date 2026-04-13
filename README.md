@@ -2,11 +2,9 @@
 
 Hi my name is Daniel. I am a Graduate Student Researcher at NYU Center for Cybersecurity. 
 
-I created Cyber Actor Atlas as an open-source map and downloadable dataset for exploring the publicly reported origins of cyber actors. It is designed as a lightweight research and education resource for people who want a clearer geographic view of how named actors are described in public reporting.
+I created [Cyber Actor Atlas](https://codewithdaniel1.github.io/CyberActorAtlas/) as an open-source map and downloadable dataset for exploring the publicly reported origins of cyber actors. It is designed as a lightweight research and education resource for people who want a clearer geographic view of how named actors are described in public reporting.
 
-Live site: [Cyber Actor Atlas](https://codewithdaniel1.github.io/CyberActorAtlas/)
-
-The atlas brings together cybercrime groups, financial fraud actors, crypto-crime actors, darknet market operators, hacktivist collectives, state-linked theft groups, access brokers, and a limited set of defensive or white-hat organizations for context.
+The atlas brings together ransomware groups, banking theft actors, fraud operators, financial crime groups, darknet market operators, hacktivist collectives, state-linked theft groups, access brokers, and a limited set of defensive or white-hat organizations for context.
 
 ## What You Can Do
 
