@@ -24,7 +24,7 @@ npm run dev
 
 The app now uses a bundled static dataset instead of live venue lookups. The map centers on the world, and the sidebar tracks whichever mapped groups are currently inside the viewport.
 
-The current dataset blends cybercrime groups, cyber-enabled financial fraud actors, blockchain / crypto theft actors, hacktivist groups, hybrid actors that mix financial and political motives, and a set of prominent white-hat / defensive organizations.
+The current dataset blends cybercrime groups, cyber-enabled financial fraud actors, blockchain / crypto theft actors, hacktivist groups, hybrid actors that mix financial and political motives, and a set of prominent white-hat / defensive organizations. It includes both first-tier globally notorious actors and a curated second-tier layer of widely tracked criminal and defensive groups.
 
 Downloadable copies of the dataset are also published in Excel-friendly and machine-readable formats:
 
@@ -33,11 +33,11 @@ Downloadable copies of the dataset are also published in Excel-friendly and mach
 
 Each entry includes:
 
-- Group or operation name
+- Display name used in the app and exports
 - Reported origin point
 - Category
 - First-seen year
-- Aliases and short tradecraft notes
+- Tradecraft notes and source-backed alternate names where relevant
 - Attribution note and source label
 
 ## Methodology
@@ -56,12 +56,14 @@ That command writes downloadable files to [`public/data`](./public/data).
 
 For each group, I collect:
 
-- `name`: the commonly used public name for the group or operation
-- `aliases`: major public aliases used by vendors or governments
+- `name`: the canonical base name stored in the source data
+- `aliases`: major public alternate names used by vendors or governments when they clearly refer to the same actor
 - `firstSeen`: the earliest activity year stated or implied in the cited reporting
 - `knownFor`: a short summary of the activity most associated with that group
 - `attribution`: a plain-language note describing the public claim about origin, affiliation, or official organizational basis
 - `sourceLabel`: a short citation label shown in the UI
+
+In the UI and downloadable CSV/JSON files, the visible `name` field is rendered as a combined label like `Primary, Alias, Alias` when aliases are present.
 
 ### How the map location is chosen
 
@@ -79,13 +81,15 @@ This means the map is best read as an origin-attribution atlas, not a precise op
 
 Directly sourced from public reporting or official organization materials:
 
-- Group name and aliases
+- Group names and aliases
 - Reported country or city of origin
 - First-seen timeframe
 - Activity summary and attribution note
 
 Editorial or normalized by this project:
 
+- The choice of one canonical base name when multiple sources use different names for the same actor
+- The concatenated display/export name format derived from that base name plus aliases
 - `type` categories such as `ransomware`, `financial-fraud`, `crypto-crime`, `hacktivist`, `white-hat`, `carding`, `bec-fraud`, and `access-brokerage`
 - `scope` labels such as `Global` or `Regional`
 - The exact display coordinate used on the map
@@ -94,6 +98,8 @@ Editorial or normalized by this project:
 ### Important limitation
 
 Some malicious groups have conflicting or incomplete public attribution. In those cases, the dataset uses the strongest public source I could find, and a small number of entries rely on converging public reporting rather than a single indictment or sanctions notice. White-hat entries are included as official organizations, not attributed threat actors. This repository should be treated as a research-driven visualization layer over public reporting, not as a canonical intelligence database.
+
+Where multiple names clearly refer to the same actor, the atlas keeps one canonical base name in the source data and concatenates the rest into the displayed/exported name, for example `Primary, Alias, Alias`. For defensive organizations, the canonical base name is usually the clearest current official organization or team name rather than a stack of near-duplicate brand variants.
 
 ## Sources
 
@@ -129,6 +135,8 @@ Primary source families used in the current dataset:
   [BlackByte](https://attack.mitre.org/groups/G1043/),
   [Medusa Group](https://attack.mitre.org/groups/G1051/),
   [Mustard Tempest](https://attack.mitre.org/groups/G1020/)
+- Additional MITRE ATT&CK entries:
+  [Andariel](https://attack.mitre.org/groups/G0138/)
 - CISA and partner advisories:
   [BianLian](https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-136a),
   [TraderTraitor](https://www.cisa.gov/sites/default/files/publications/AA22-108A-TraderTraitor-North_Korea_APT_Targets_Blockchain_Companies.pdf),
@@ -136,10 +144,14 @@ Primary source families used in the current dataset:
 - Secureworks CTU:
   [GOLD SKYLINE](https://www.secureworks.com/research/threat-profiles/gold-skyline),
   [GOLD GALLEON](https://www.secureworks.com/research/threat-profiles/gold-galleon),
-  [GOLD BARONDALE](https://www.secureworks.com/research/threat-profiles/gold-barondale)
+  [GOLD BARONDALE](https://www.secureworks.com/research/threat-profiles/gold-barondale),
+  [GOLD WATERFALL](https://www.secureworks.com/research/threat-profiles/gold-waterfall),
+  [GOLD SYMPHONY](https://www.secureworks.com/research/threat-profiles/gold-symphony),
+  [GOLD PARAKEET](https://www.secureworks.com/research/threat-profiles/gold-parakeet)
 - Additional vendor research:
   [Cosmic Lynx / Agari H2 2020 report](https://www.agari.com/cyber-intelligence-research/e-books/agari-h2-2020-email-fraud-report.pdf),
-  [FBI reward notice for Bogachev](https://www.fbi.gov/news/press-releases/reward-announced-for-cyber-fugitive)
+  [FBI reward notice for Bogachev](https://www.fbi.gov/news/press-releases/reward-announced-for-cyber-fugitive),
+  [MoneyTaker / Group-IB report summary](https://www.group-ib.com/media-center/press-releases/moneytaker/)
 - ESET Research:
   [Grandoreiro](https://www.welivesecurity.com/2020/04/28/grandoreiro-how-engorged-can-exe-get/),
   [Guildma](https://www.welivesecurity.com/2020/03/05/guildma-devil-drives-electric/),
@@ -155,6 +167,14 @@ Primary source families used in the current dataset:
   [Google Threat Intelligence](https://cloud.google.com/security/threats),
   [Google Mountain View HQ](https://www.google.com/about/careers/applications/locations/mountain-view/),
   [Cisco Talos](https://www.cisco.com/site/uk/en/products/security/talos/index.html),
+  [Unit 42](https://origin-unit42.paloaltonetworks.com/about-unit-42/),
+  [CrowdStrike Falcon Intelligence](https://www.crowdstrike.com/en-us/platform/threat-intelligence/falcon-intelligence/),
+  [Recorded Future contact page](https://www.recordedfuture.com/contact),
+  [SentinelLABS / SentinelOne](https://www.sentinelone.com/labs/),
+  [Rapid7 Labs](https://www.rapid7.com/research/),
+  [Huntress](https://www.huntress.com/),
+  [ESET headquarters announcement](https://www.eset.com/us/about/newsroom/press-releases/cybersecurity-leader-eset-to-build-new-global-headquarters/),
+  [Secureworks press page](https://www.secureworks.com/about/press/81306),
   [Shadowserver Foundation fact sheet](https://www.shadowserver.org/wp-content/uploads/2022/10/Shadowserver-Overview-v1.5-2022-10-04.pdf),
   [Team Cymru contact page](https://www.team-cymru.com/contact-us)
 
@@ -163,7 +183,7 @@ Primary source families used in the current dataset:
 When adding or editing a group entry, the workflow is:
 
 1. Find a primary public source such as a government case, sanctions notice, vendor threat profile, or official organization page.
-2. Extract the origin claim, first-seen timing, aliases, and activity summary.
+2. Extract the origin claim, first-seen timing, alternate names, and activity summary.
 3. Decide whether the attribution is city-level or only country-level.
 4. Add the normalized record to `src/data/groups.js`.
 5. Run `npm run export:data` to refresh the downloadable CSV and JSON files.
@@ -172,6 +192,12 @@ When adding or editing a group entry, the workflow is:
 ## Project structure
 
 ```text
+public/
+└── data/
+    ├── cyber-actor-atlas.csv
+    └── cyber-actor-atlas.json
+scripts/
+└── export-dataset.mjs
 src/
 ├── App.jsx
 ├── components/

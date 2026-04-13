@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { getTypeMeta } from '../data/groups.js';
+import { getDisplayName, getTypeMeta } from '../data/groups.js';
 
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTRIBUTION =
@@ -62,9 +62,7 @@ function escapeHtml(value) {
 
 function popupHTML(group) {
   const type = getTypeMeta(group.type);
-  const aliases = group.aliases.length
-    ? escapeHtml(group.aliases.slice(0, 2).join(' · '))
-    : 'No major alias listed';
+  const displayName = escapeHtml(getDisplayName(group));
 
   return `
     <div style="
@@ -74,7 +72,7 @@ function popupHTML(group) {
       color:#1a1a2e;
     ">
       <div style="font-weight:700;font-size:13px;margin-bottom:3px;">
-        ${escapeHtml(group.name)}
+        ${displayName}
       </div>
       <div style="font-size:10px;color:#6b7280;margin-bottom:8px;">
         ${escapeHtml(group.city)}, ${escapeHtml(group.country)}
@@ -97,9 +95,6 @@ function popupHTML(group) {
         margin-bottom:6px;
       ">
         First seen: ${escapeHtml(String(group.firstSeen))} · Scope: ${escapeHtml(group.scope)}
-      </div>
-      <div style="font-size:10px;color:#6b7280;line-height:1.45;">
-        ${aliases}
       </div>
     </div>
   `;
@@ -188,7 +183,7 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
 
       const marker = L.marker([group.lat, group.lng], {
         icon: makeIcon(group, false),
-        title: group.name,
+        title: getDisplayName(group),
       }).addTo(map);
 
       marker.on('click', () => {

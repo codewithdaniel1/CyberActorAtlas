@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTypeMeta } from '../data/groups.js';
+import { getDisplayName, getTypeMeta } from '../data/groups.js';
 
 const PANEL_HEIGHT = 286;
 
@@ -33,6 +33,7 @@ function StatCard({ label, value, valueStyle }) {
 export default function DetailPanel({ venue, onClose }) {
   const open = !!venue;
   const type = venue ? getTypeMeta(venue.type) : null;
+  const displayName = venue ? getDisplayName(venue) : '';
 
   return (
     <div style={{
@@ -48,7 +49,7 @@ export default function DetailPanel({ venue, onClose }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
             <div>
               <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text)', marginBottom: '3px' }}>
-                {venue.name}
+                {displayName}
               </div>
               <div style={{ fontSize: '10px', color: 'var(--text-faint)' }}>
                 {venue.city}, {venue.country}
@@ -141,26 +142,6 @@ export default function DetailPanel({ venue, onClose }) {
             <div style={{ fontSize: '11px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
               {venue.attribution}
             </div>
-          </div>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '8px' }}>
-            {venue.aliases.length > 0 ? venue.aliases.map((alias) => (
-              <span
-                key={alias}
-                style={{
-                  fontSize: '10px',
-                  padding: '2px 7px',
-                  borderRadius: '999px',
-                  background: 'var(--surface2)',
-                  color: 'var(--text-muted)',
-                  border: '0.5px solid var(--border)',
-                }}
-              >
-                {alias}
-              </span>
-            )) : (
-              <span style={{ fontSize: '10px', color: 'var(--text-faint)' }}>No aliases listed.</span>
-            )}
           </div>
 
           <div style={{ fontSize: '10px', color: 'var(--text-faint)' }}>

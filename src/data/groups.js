@@ -125,13 +125,13 @@ export const GROUPS = [
     originPrecision: CITY_PIN,
     firstSeen: 2009,
     scope: 'Global',
-    aliases: ['Indrik Spider', 'Dridex crew'],
-    tags: ['Dridex', 'BitPaymer'],
+    aliases: ['Indrik Spider', 'Manatee Tempest', 'DEV-0243', 'UNC2165', 'Dridex crew'],
+    tags: ['Dridex', 'BitPaymer', 'WastedLocker'],
     knownFor:
-      'Large-scale credential theft, bank fraud, and later ransomware activity tied to the Dridex malware ecosystem.',
+      'Large-scale credential theft, bank fraud, and later ransomware and extortion activity tied to the Dridex, BitPaymer, WastedLocker, and Hades ecosystems.',
     attribution:
-      'The U.S. Treasury described Evil Corp as a Russia-based cybercriminal organization operating as a business from Moscow.',
-    sourceLabel: 'U.S. Treasury, Dec 2019 / Oct 2024',
+      'U.S. Treasury and MITRE ATT&CK reporting describe Evil Corp, also tracked as Indrik Spider, as a Russia-based cybercriminal organization operating from Moscow and evolving from banking malware into major ransomware operations.',
+    sourceLabel: 'U.S. Treasury / MITRE ATT&CK',
   },
   {
     id: 'wizard-spider',
@@ -436,25 +436,6 @@ export const GROUPS = [
     attribution:
       'DOJ charged the marketplace’s founder and operator as a Tehran-based Iranian national in 2025.',
     sourceLabel: 'DOJ, Apr 2025',
-  },
-  {
-    id: 'indrik-spider',
-    name: 'Indrik Spider',
-    type: 'banking-theft',
-    country: 'Russia',
-    city: 'Moscow',
-    lat: 55.7558,
-    lng: 37.6173,
-    originPrecision: COUNTRY_CAPITAL_PIN,
-    firstSeen: 2014,
-    scope: 'Global',
-    aliases: ['Evil Corp', 'Manatee Tempest', 'DEV-0243', 'UNC2165'],
-    tags: ['Dridex', 'WastedLocker'],
-    knownFor:
-      'Evolving from large-scale banking malware into ransomware and extortion operations built on top of the Dridex ecosystem.',
-    attribution:
-      'MITRE ATT&CK tracks Indrik Spider as a Russia-based cybercriminal group that moved from Dridex into BitPaymer, WastedLocker, and Hades ransomware activity.',
-    sourceLabel: 'MITRE ATT&CK, updated Oct 2024',
   },
   {
     id: 'bianlian',
@@ -913,6 +894,101 @@ export const GROUPS = [
     sourceLabel: 'Agari / Fortra, Jul 2020',
   },
   {
+    id: 'andariel',
+    name: 'Andariel',
+    type: 'state-linked-theft',
+    country: 'North Korea',
+    city: 'Pyongyang',
+    lat: 39.0392,
+    lng: 125.7625,
+    originPrecision: COUNTRY_CAPITAL_PIN,
+    firstSeen: 2009,
+    scope: 'Global',
+    aliases: ['Silent Chollima', 'PLUTONIUM', 'Onyx Sleet'],
+    tags: ['bank theft', 'crypto theft', 'subgroup'],
+    knownFor:
+      'Conducting destructive and espionage-linked intrusions while also carrying out financially motivated attacks against ATMs, banks, and cryptocurrency organizations.',
+    attribution:
+      'MITRE ATT&CK tracks Andariel as a North Korean state-sponsored subgroup of Lazarus that has also conducted cyber financial operations.',
+    sourceLabel: 'MITRE ATT&CK, updated Sep 2024',
+  },
+  {
+    id: 'moneytaker',
+    name: 'MoneyTaker',
+    type: 'financial-fraud',
+    country: 'Russia',
+    city: 'Moscow',
+    lat: 55.7558,
+    lng: 37.6173,
+    originPrecision: COUNTRY_CAPITAL_PIN,
+    firstSeen: 2016,
+    scope: 'Global',
+    aliases: [],
+    tags: ['SWIFT theft', 'card processing', 'bank intrusions'],
+    knownFor:
+      'Targeting banks, card-processing systems, and interbank transfer infrastructure to steal funds and operational documentation for follow-on attacks.',
+    attribution:
+      'Group-IB described MoneyTaker as a Russian-speaking targeted attack group; this atlas simplifies that reporting to a country-level Russia origin pin for map readability.',
+    sourceLabel: 'Group-IB, Dec 2017',
+  },
+  {
+    id: 'gold-waterfall',
+    name: 'GOLD WATERFALL',
+    type: 'ransomware',
+    country: 'Russia',
+    city: 'Moscow',
+    lat: 55.7558,
+    lng: 37.6173,
+    originPrecision: COUNTRY_CAPITAL_PIN,
+    firstSeen: 2020,
+    scope: 'Global',
+    aliases: ['DarkSide operators', 'BlackMatter operators'],
+    tags: ['RaaS', 'double extortion', 'Russian-language'],
+    knownFor:
+      'Creating and operating the DarkSide and BlackMatter ransomware families, including high-profile extortion campaigns against critical enterprises.',
+    attribution:
+      'Secureworks says GOLD WATERFALL advertises in Russian, requires affiliates to speak Russian, and excludes Russia and nearby allies from targeting; the atlas maps that activity to Russia at country level.',
+    sourceLabel: 'Secureworks CTU',
+  },
+  {
+    id: 'gold-symphony',
+    name: 'GOLD SYMPHONY',
+    type: 'access-brokerage',
+    country: 'Russia',
+    city: 'Moscow',
+    lat: 55.7558,
+    lng: 37.6173,
+    originPrecision: COUNTRY_CAPITAL_PIN,
+    firstSeen: 2019,
+    scope: 'Global',
+    aliases: [],
+    tags: ['Buer Loader', 'malware-as-a-service'],
+    knownFor:
+      'Developing and selling the Buer Loader malware-as-a-service ecosystem used to deliver follow-on payloads for financially motivated intrusions.',
+    attribution:
+      'Secureworks assesses with high confidence that GOLD SYMPHONY is likely based in Russia, which this atlas represents with a country-level Moscow pin.',
+    sourceLabel: 'Secureworks CTU',
+  },
+  {
+    id: 'gold-parakeet',
+    name: 'GOLD PARAKEET',
+    type: 'ransomware',
+    country: 'Russia',
+    city: 'Moscow',
+    lat: 55.7558,
+    lng: 37.6173,
+    originPrecision: COUNTRY_CAPITAL_PIN,
+    firstSeen: 2019,
+    scope: 'Global',
+    aliases: ['NetWalker operators'],
+    tags: ['NetWalker', 'RaaS', 'double extortion'],
+    knownFor:
+      'Operating the NetWalker ransomware program and evolving it into a ransomware-as-a-service model with large-scale data-theft extortion.',
+    attribution:
+      'Secureworks attributes GOLD PARAKEET to Russian cyber threat actors with moderate confidence; the atlas keeps that wording cautious and uses a country-level Russia pin.',
+    sourceLabel: 'Secureworks CTU',
+  },
+  {
     id: 'project-zero',
     name: 'Project Zero',
     type: 'white-hat',
@@ -999,7 +1075,7 @@ export const GROUPS = [
     originPrecision: CITY_PIN,
     firstSeen: 2001,
     scope: 'Global',
-    aliases: ['OWASP'],
+    aliases: [],
     tags: ['open source', 'application security'],
     knownFor:
       'Maintaining open security standards, tools, and educational resources such as the OWASP Top 10 and ASVS for secure software development.',
@@ -1009,7 +1085,7 @@ export const GROUPS = [
   },
   {
     id: 'microsoft-threat-intelligence',
-    name: 'Microsoft Threat Intelligence',
+    name: 'Microsoft Threat Intelligence Center',
     type: 'white-hat',
     country: 'United States',
     city: 'Redmond',
@@ -1018,7 +1094,7 @@ export const GROUPS = [
     originPrecision: CITY_PIN,
     firstSeen: 2022,
     scope: 'Global',
-    aliases: ['Microsoft Threat Intelligence Center', 'MSTIC'],
+    aliases: [],
     tags: ['threat intelligence', 'disruption', 'research'],
     knownFor:
       'Publishing widely used actor tracking, malware analysis, disruption reporting, and intelligence-led guidance consumed across the security industry.',
@@ -1037,7 +1113,7 @@ export const GROUPS = [
     originPrecision: CITY_PIN,
     firstSeen: 2024,
     scope: 'Global',
-    aliases: ['Google Threat Intelligence Group', 'GTIG'],
+    aliases: [],
     tags: ['threat intelligence', 'zero-days', 'research'],
     knownFor:
       'Publishing prominent frontline reporting on state and criminal actors, zero-day exploitation trends, and threat activity affecting global enterprises and governments.',
@@ -1056,7 +1132,7 @@ export const GROUPS = [
     originPrecision: CITY_PIN,
     firstSeen: 2014,
     scope: 'Global',
-    aliases: ['Talos Intelligence'],
+    aliases: [],
     tags: ['threat intelligence', 'incident response', 'malware research'],
     knownFor:
       'Providing some of the most widely cited public malware analysis, incident response research, and defensive threat intelligence in the industry.',
@@ -1066,7 +1142,7 @@ export const GROUPS = [
   },
   {
     id: 'shadowserver-foundation',
-    name: 'Shadowserver Foundation',
+    name: 'The Shadowserver Foundation',
     type: 'white-hat',
     country: 'United States',
     city: 'Pleasanton',
@@ -1075,7 +1151,7 @@ export const GROUPS = [
     originPrecision: CITY_PIN,
     firstSeen: 2004,
     scope: 'Global',
-    aliases: ['The Shadowserver Foundation'],
+    aliases: [],
     tags: ['internet telemetry', 'sinkholing', 'free reporting'],
     knownFor:
       'Providing large-scale public-benefit telemetry, daily network exposure reporting, and support for defenders, CERTs, and law enforcement worldwide.',
@@ -1102,10 +1178,181 @@ export const GROUPS = [
       'Team Cymru\'s official contact and press materials place the organization in Lake Mary, Florida, which the atlas uses as its origin pin.',
     sourceLabel: 'Team Cymru official site',
   },
+  {
+    id: 'unit-42',
+    name: 'Unit 42',
+    type: 'white-hat',
+    country: 'United States',
+    city: 'Santa Clara',
+    lat: 37.3541,
+    lng: -121.9552,
+    originPrecision: CITY_PIN,
+    firstSeen: 2014,
+    scope: 'Global',
+    aliases: [],
+    tags: ['threat intelligence', 'incident response', 'consulting'],
+    knownFor:
+      'Publishing influential adversary tracking, malware analysis, and incident response reporting while supporting frontline breach investigations.',
+    attribution:
+      'Palo Alto Networks describes Unit 42 as its threat intelligence and security consulting organization; the pin uses Palo Alto Networks\' Santa Clara headquarters.',
+    sourceLabel: 'Palo Alto Networks',
+  },
+  {
+    id: 'crowdstrike-intelligence',
+    name: 'CrowdStrike Intelligence',
+    type: 'white-hat',
+    country: 'United States',
+    city: 'Austin',
+    lat: 30.2672,
+    lng: -97.7431,
+    originPrecision: CITY_PIN,
+    firstSeen: 2018,
+    scope: 'Global',
+    aliases: ['Falcon Adversary Intelligence'],
+    tags: ['adversary profiles', 'threat intelligence', 'research'],
+    knownFor:
+      'Maintaining one of the most visible public actor-naming and adversary-profiling systems used across the security industry.',
+    attribution:
+      'CrowdStrike markets Falcon Adversary Intelligence as part of its threat intelligence platform, and recent official releases identify Austin, Texas as the company headquarters location used here.',
+    sourceLabel: 'CrowdStrike official site',
+  },
+  {
+    id: 'insikt-group',
+    name: 'Insikt Group',
+    type: 'white-hat',
+    country: 'United States',
+    city: 'Somerville',
+    lat: 42.3876,
+    lng: -71.0995,
+    originPrecision: CITY_PIN,
+    firstSeen: 2019,
+    scope: 'Global',
+    aliases: [],
+    tags: ['threat research', 'OSINT', 'intelligence reports'],
+    knownFor:
+      'Producing widely cited intelligence on cybercriminal ecosystems, state activity, vulnerabilities, and geopolitical risk through Recorded Future.',
+    attribution:
+      'Recorded Future describes Insikt Group as its premier intelligence team and lists a Somerville, Massachusetts office on its official contact page.',
+    sourceLabel: 'Recorded Future',
+  },
+  {
+    id: 'sentinellabs',
+    name: 'SentinelLABS',
+    type: 'white-hat',
+    country: 'United States',
+    city: 'Mountain View',
+    lat: 37.3861,
+    lng: -122.0839,
+    originPrecision: CITY_PIN,
+    firstSeen: 2022,
+    scope: 'Global',
+    aliases: [],
+    tags: ['security research', 'adversary tracking', 'malware analysis'],
+    knownFor:
+      'Publishing fast-moving research on malware, exploit chains, cybercrime operations, and state-linked campaigns through an open community-focused research platform.',
+    attribution:
+      'SentinelOne describes SentinelLABS as its open research venue and identifies Mountain View, California as the company headquarters used for this map pin.',
+    sourceLabel: 'SentinelOne / SentinelLABS',
+  },
+  {
+    id: 'rapid7-labs',
+    name: 'Rapid7 Labs',
+    type: 'white-hat',
+    country: 'United States',
+    city: 'Boston',
+    lat: 42.3601,
+    lng: -71.0589,
+    originPrecision: CITY_PIN,
+    firstSeen: 2014,
+    scope: 'Global',
+    aliases: [],
+    tags: ['internet telemetry', 'threat research', 'open data'],
+    knownFor:
+      'Sharing trusted open-source research, internet-scale exposure findings, and threat landscape reporting through projects like Sonar and Lorelei.',
+    attribution:
+      'Rapid7 presents Rapid7 Labs as its cybersecurity research arm, and official company materials describe Rapid7 as Boston-headquartered.',
+    sourceLabel: 'Rapid7 official site',
+  },
+  {
+    id: 'huntress',
+    name: 'Huntress',
+    type: 'white-hat',
+    country: 'United States',
+    city: 'Columbia',
+    lat: 39.2037,
+    lng: -76.861,
+    originPrecision: CITY_PIN,
+    firstSeen: 2015,
+    scope: 'Global',
+    aliases: [],
+    tags: ['managed detection', 'threat hunting', 'community reporting'],
+    knownFor:
+      'Combining managed detection with rapid public writeups and incident guidance aimed especially at organizations without large internal security teams.',
+    attribution:
+      'Huntress official releases identify the company with Columbia, Maryland, which this atlas uses as the organization origin point.',
+    sourceLabel: 'Huntress official site',
+  },
+  {
+    id: 'eset-research',
+    name: 'ESET Research',
+    type: 'white-hat',
+    country: 'Slovakia',
+    city: 'Bratislava',
+    lat: 48.1486,
+    lng: 17.1077,
+    originPrecision: CITY_PIN,
+    firstSeen: 2015,
+    scope: 'Global',
+    aliases: [],
+    tags: ['malware research', 'disruption support', 'threat intelligence'],
+    knownFor:
+      'Publishing influential technical research and frequently participating in multinational disruption efforts against malware and financial crime operations.',
+    attribution:
+      'ESET identifies Bratislava as its headquarters, and the atlas uses that location for ESET Research as the company’s research organization origin.',
+    sourceLabel: 'ESET official site',
+  },
+  {
+    id: 'secureworks-ctu',
+    name: 'Secureworks CTU',
+    type: 'white-hat',
+    country: 'United States',
+    city: 'Atlanta',
+    lat: 33.749,
+    lng: -84.388,
+    originPrecision: CITY_PIN,
+    firstSeen: 2010,
+    scope: 'Global',
+    aliases: ['Counter Threat Unit'],
+    tags: ['threat intelligence', 'incident response', 'research'],
+    knownFor:
+      'Tracking hundreds of threat groups and publishing durable naming, attribution, and intrusion-analysis work through its Counter Threat Unit research team.',
+    attribution:
+      'Secureworks describes CTU as its dedicated threat research team, and longstanding official materials identify the company with Atlanta, Georgia.',
+    sourceLabel: 'Secureworks official site',
+  },
 ];
 
 export function getTypeMeta(type) {
   return TYPE_META[type] ?? TYPE_META.hybrid;
+}
+
+export function getDisplayName(group) {
+  const parts = [group.name, ...(group.aliases ?? [])]
+    .flatMap((value) => String(value).split(/\s*\/\s*/))
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  const uniqueParts = [];
+  const seen = new Set();
+
+  for (const part of parts) {
+    const key = part.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    uniqueParts.push(part);
+  }
+
+  return uniqueParts.join(', ');
 }
 
 export function scopeWeight(scope) {

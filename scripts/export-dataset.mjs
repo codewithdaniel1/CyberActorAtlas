@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
-const { GROUPS, TYPE_META } = await import(path.join(repoRoot, 'src/data/groups.js'));
+const { GROUPS, TYPE_META, getDisplayName } = await import(path.join(repoRoot, 'src/data/groups.js'));
 
 const outputDir = path.join(repoRoot, 'public/data');
 
@@ -22,7 +22,6 @@ const csvColumns = [
   'originPrecision',
   'firstSeen',
   'scope',
-  'aliases',
   'tags',
   'knownFor',
   'attribution',
@@ -32,7 +31,7 @@ const csvColumns = [
 function normalizeGroup(group) {
   return {
     id: group.id,
-    name: group.name,
+    name: getDisplayName(group),
     type: group.type,
     typeLabel: TYPE_META[group.type]?.label ?? group.type,
     country: group.country,
@@ -42,7 +41,6 @@ function normalizeGroup(group) {
     originPrecision: group.originPrecision,
     firstSeen: group.firstSeen,
     scope: group.scope,
-    aliases: group.aliases.join('; '),
     tags: group.tags.join('; '),
     knownFor: group.knownFor,
     attribution: group.attribution,
