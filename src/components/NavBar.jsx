@@ -39,6 +39,8 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
   },
   badge: {
     fontFamily: 'var(--font-mono)',
@@ -57,6 +59,16 @@ const styles = {
     padding: '4px 8px',
     borderRadius: 'var(--radius-sm)',
     border: '0.5px solid var(--border)',
+  },
+  downloadLink: {
+    fontFamily: 'var(--font-mono)',
+    fontSize: '11px',
+    color: 'var(--accent)',
+    background: 'var(--bg)',
+    padding: '4px 8px',
+    borderRadius: 'var(--radius-sm)',
+    border: '0.5px solid var(--border)',
+    textDecoration: 'none',
   },
 };
 
@@ -101,6 +113,12 @@ export default function NavBar({ loading, visibleCount }) {
       </div>
       <div style={styles.right}>
         <div style={styles.badge}>{visibleCount} visible</div>
+        <a href="/data/cyber-actor-atlas.csv" download style={styles.downloadLink}>
+          CSV / Excel
+        </a>
+        <a href="/data/cyber-actor-atlas.json" download style={styles.downloadLink}>
+          JSON
+        </a>
         <div style={styles.badge}>{time}</div>
         <div style={styles.cityBadge}>Public attribution</div>
       </div>

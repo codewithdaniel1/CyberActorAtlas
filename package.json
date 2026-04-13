@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "export:data": "node scripts/export-dataset.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

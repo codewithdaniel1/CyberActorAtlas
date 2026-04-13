@@ -26,6 +26,11 @@ The app now uses a bundled static dataset instead of live venue lookups. The map
 
 The current dataset blends cybercrime groups, cyber-enabled financial fraud actors, blockchain / crypto theft actors, hacktivist groups, hybrid actors that mix financial and political motives, and a set of prominent white-hat / defensive organizations.
 
+Downloadable copies of the dataset are also published in Excel-friendly and machine-readable formats:
+
+- [`public/data/cyber-actor-atlas.csv`](./public/data/cyber-actor-atlas.csv) for Excel, Google Sheets, and other spreadsheet tools
+- [`public/data/cyber-actor-atlas.json`](./public/data/cyber-actor-atlas.json) for programmatic use
+
 Each entry includes:
 
 - Group or operation name
@@ -39,7 +44,15 @@ Each entry includes:
 
 ### How the dataset is built
 
-The dataset is stored locally in [`src/data/groups.js`](./src/data/groups.js). There is no live API call and no automated sync. Each record is manually curated from public reporting or official organization materials and then normalized into a consistent schema for the map.
+The dataset source of truth is stored locally in [`src/data/groups.js`](./src/data/groups.js). There is no live API call and no automated sync. Each record is manually curated from public reporting or official organization materials and then normalized into a consistent schema for the map.
+
+Spreadsheet and JSON exports are generated from that source file with:
+
+```bash
+npm run export:data
+```
+
+That command writes downloadable files to [`public/data`](./public/data).
 
 For each group, I collect:
 
@@ -153,7 +166,8 @@ When adding or editing a group entry, the workflow is:
 2. Extract the origin claim, first-seen timing, aliases, and activity summary.
 3. Decide whether the attribution is city-level or only country-level.
 4. Add the normalized record to `src/data/groups.js`.
-5. Keep the wording conservative if attribution is disputed, incomplete, or simplified from a multi-country ecosystem into a single map pin.
+5. Run `npm run export:data` to refresh the downloadable CSV and JSON files.
+6. Keep the wording conservative if attribution is disputed, incomplete, or simplified from a multi-country ecosystem into a single map pin.
 
 ## Project structure
 
