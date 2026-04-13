@@ -1,6 +1,6 @@
 # Cyber Actor Atlas
 
-React + Vite + Leaflet map for exploring the publicly reported origins of cyber actors, including malicious groups and defensive white-hat organizations.
+React + Vite + Leaflet map for exploring the publicly reported origins of cyber actors, including malicious groups, cyber-enabled financial and crypto crime actors, and defensive white-hat organizations.
 
 ## What this project is
 
@@ -24,7 +24,7 @@ npm run dev
 
 The app now uses a bundled static dataset instead of live venue lookups. The map centers on the world, and the sidebar tracks whichever mapped groups are currently inside the viewport.
 
-The current dataset blends cybercrime groups, hacktivist groups, hybrid actors that mix financial and political motives, and a set of prominent white-hat / defensive organizations.
+The current dataset blends cybercrime groups, cyber-enabled financial fraud actors, blockchain / crypto theft actors, hacktivist groups, hybrid actors that mix financial and political motives, and a set of prominent white-hat / defensive organizations.
 
 Each entry includes:
 
@@ -73,7 +73,7 @@ Directly sourced from public reporting or official organization materials:
 
 Editorial or normalized by this project:
 
-- `type` categories such as `ransomware`, `hacktivist`, `white-hat`, `carding`, `bec-fraud`, and `access-brokerage`
+- `type` categories such as `ransomware`, `financial-fraud`, `crypto-crime`, `hacktivist`, `white-hat`, `carding`, `bec-fraud`, and `access-brokerage`
 - `scope` labels such as `Global` or `Regional`
 - The exact display coordinate used on the map
 - The shortened summary text used in cards and detail panels
@@ -90,7 +90,8 @@ Primary source families used in the current dataset:
   [LockBit](https://www.justice.gov/opa/pr/united-states-charges-dual-russian-and-israeli-national-developer-lockbit-ransomware-group),
   [Trickbot / Conti](https://www.justice.gov/opa/pr/multiple-foreign-nationals-charged-connection-trickbot-malware-and-conti-ransomware),
   [Hydra Market](https://www.justice.gov/usao-ndca/pr/justice-department-investigation-leads-shutdown-largest-online-darknet-marketplace),
-  [Nemesis Market](https://www.justice.gov/opa/pr/iranian-national-indicted-operating-online-marketplace-offering-fentanyl-and-money)
+  [Nemesis Market](https://www.justice.gov/opa/pr/iranian-national-indicted-operating-online-marketplace-offering-fentanyl-and-money),
+  [GameOver Zeus / Bogachev reward notice](https://www.justice.gov/archives/opa/pr/reward-announced-cyber-fugitive)
 - U.S. Department of the Treasury:
   [Evil Corp sanctions](https://home.treasury.gov/news/press-releases/sm845),
   [additional Evil Corp action in 2024](https://home.treasury.gov/news/press-releases/jy2623)
@@ -116,11 +117,16 @@ Primary source families used in the current dataset:
   [Medusa Group](https://attack.mitre.org/groups/G1051/),
   [Mustard Tempest](https://attack.mitre.org/groups/G1020/)
 - CISA and partner advisories:
-  [BianLian](https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-136a)
+  [BianLian](https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-136a),
+  [TraderTraitor](https://www.cisa.gov/sites/default/files/publications/AA22-108A-TraderTraitor-North_Korea_APT_Targets_Blockchain_Companies.pdf),
+  [AppleJeus](https://www.cisa.gov/news-events/analysis-reports/ar21-048c)
 - Secureworks CTU:
   [GOLD SKYLINE](https://www.secureworks.com/research/threat-profiles/gold-skyline),
   [GOLD GALLEON](https://www.secureworks.com/research/threat-profiles/gold-galleon),
   [GOLD BARONDALE](https://www.secureworks.com/research/threat-profiles/gold-barondale)
+- Additional vendor research:
+  [Cosmic Lynx / Agari H2 2020 report](https://www.agari.com/cyber-intelligence-research/e-books/agari-h2-2020-email-fraud-report.pdf),
+  [FBI reward notice for Bogachev](https://www.fbi.gov/news/press-releases/reward-announced-for-cyber-fugitive)
 - ESET Research:
   [Grandoreiro](https://www.welivesecurity.com/2020/04/28/grandoreiro-how-engorged-can-exe-get/),
   [Guildma](https://www.welivesecurity.com/2020/03/05/guildma-devil-drives-electric/),
@@ -136,7 +142,6 @@ Primary source families used in the current dataset:
   [Google Threat Intelligence](https://cloud.google.com/security/threats),
   [Google Mountain View HQ](https://www.google.com/about/careers/applications/locations/mountain-view/),
   [Cisco Talos](https://www.cisco.com/site/uk/en/products/security/talos/index.html),
-  [Mandiant](https://cloud.google.com/security/mandiant),
   [Shadowserver Foundation fact sheet](https://www.shadowserver.org/wp-content/uploads/2022/10/Shadowserver-Overview-v1.5-2022-10-04.pdf),
   [Team Cymru contact page](https://www.team-cymru.com/contact-us)
 
@@ -148,7 +153,7 @@ When adding or editing a group entry, the workflow is:
 2. Extract the origin claim, first-seen timing, aliases, and activity summary.
 3. Decide whether the attribution is city-level or only country-level.
 4. Add the normalized record to `src/data/groups.js`.
-5. Keep the wording conservative if attribution is disputed or incomplete.
+5. Keep the wording conservative if attribution is disputed, incomplete, or simplified from a multi-country ecosystem into a single map pin.
 
 ## Project structure
 
