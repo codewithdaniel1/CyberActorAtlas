@@ -21,12 +21,12 @@ const styles = {
     alignItems: 'center',
     gap: '7px',
   },
-  liveDot: {
-    width: '7px',
-    height: '7px',
+  logoIcon: {
+    width: '28px',
+    height: '28px',
     borderRadius: '50%',
-    background: 'var(--hot)',
-    animation: 'pulseBlink 1.4s ease-in-out infinite',
+    objectFit: 'cover',
+    flexShrink: 0,
   },
   tagline: {
     fontSize: '11px',
@@ -100,26 +100,12 @@ const styles = {
   },
 };
 
-// Inject keyframes once
-const injectKeyframes = () => {
-  if (document.getElementById('atlas-keyframes')) return;
-  const style = document.createElement('style');
-  style.id = 'atlas-keyframes';
-  style.textContent = `
-    @keyframes pulseBlink {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.35; transform: scale(0.65); }
-    }
-  `;
-  document.head.appendChild(style);
-};
-
 export default function NavBar({ loading, totalGroups, searchQuery, onSearchChange }) {
   const [time, setTime] = useState('');
   const baseUrl = import.meta.env.BASE_URL;
+  const logoIconSrc = `${baseUrl}branding/cyberactoratlas-icon.png`;
 
   useEffect(() => {
-    injectKeyframes();
     const tick = () => {
       const now = new Date();
       let h = now.getHours();
@@ -136,7 +122,7 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
   return (
     <nav style={styles.nav}>
       <div style={styles.logo}>
-      <div style={{ ...styles.liveDot, background: loading ? 'var(--warm)' : 'var(--hot)' }} />
+        <img src={logoIconSrc} alt="Cyber Actor Atlas logo" style={styles.logoIcon} />
         Cyber Actor Atlas
         <span style={styles.tagline}>cyber actor origin map</span>
       </div>
