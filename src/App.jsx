@@ -73,6 +73,7 @@ export default function App() {
             onSelectVenue={setSelectedGroup}
             onBoundsChange={handleBoundsChange}
             searchActive={searchQuery.trim().length > 0}
+            activeFilter={activeFilter}
           />
         </div>
         <div style={styles.sidePanel}>

@@ -1,105 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-const styles = {
-  nav: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    padding: '0 16px',
-    height: '48px',
-    borderBottom: '0.5px solid var(--border)',
-    background: 'var(--surface)',
-    flexShrink: 0,
-  },
-  logo: {
-    fontFamily: 'var(--font-mono)',
-    fontWeight: 700,
-    fontSize: '15px',
-    letterSpacing: '-0.5px',
-    color: 'var(--accent)',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '7px',
-  },
-  logoIcon: {
-    width: '28px',
-    height: '28px',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    flexShrink: 0,
-  },
-  tagline: {
-    fontSize: '11px',
-    color: 'var(--text-faint)',
-    fontFamily: 'var(--font-mono)',
-    marginLeft: '4px',
-  },
-  right: {
-    marginLeft: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end',
-  },
-  searchWrap: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  searchInput: {
-    width: '270px',
-    maxWidth: '34vw',
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text)',
-    background: 'var(--bg)',
-    border: '0.5px solid var(--border)',
-    borderRadius: 'var(--radius-sm)',
-    padding: '7px 34px 7px 10px',
-    outline: 'none',
-  },
-  clearButton: {
-    position: 'absolute',
-    right: '6px',
-    background: 'none',
-    border: 'none',
-    color: 'var(--text-faint)',
-    cursor: 'pointer',
-    fontSize: '14px',
-    lineHeight: 1,
-    padding: '2px 4px',
-  },
-  badge: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text-muted)',
-    background: 'var(--bg)',
-    padding: '4px 8px',
-    borderRadius: 'var(--radius-sm)',
-    border: '0.5px solid var(--border)',
-  },
-  cityBadge: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--cool)',
-    background: 'var(--bg)',
-    padding: '4px 8px',
-    borderRadius: 'var(--radius-sm)',
-    border: '0.5px solid var(--border)',
-  },
-  downloadLink: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--accent)',
-    background: 'var(--bg)',
-    padding: '4px 8px',
-    borderRadius: 'var(--radius-sm)',
-    border: '0.5px solid var(--border)',
-    textDecoration: 'none',
-  },
-};
-
 export default function NavBar({ loading, totalGroups, searchQuery, onSearchChange }) {
   const [time, setTime] = useState('');
   const baseUrl = import.meta.env.BASE_URL;
@@ -120,44 +20,227 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
   }, []);
 
   return (
-    <nav style={styles.nav}>
-      <div style={styles.logo}>
-        <img src={logoIconSrc} alt="Cyber Actor Atlas logo" style={styles.logoIcon} />
-        Cyber Actor Atlas
-        <span style={styles.tagline}>cyber actor origin map</span>
-      </div>
-      <div style={styles.right}>
-        <div style={styles.badge}>
-          {loading ? '…' : `${totalGroups} total groups`}
+    <nav className="navbar" style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '14px',
+      padding: '0 20px',
+      height: '56px',
+      background: 'var(--surface)',
+      flexShrink: 0,
+    }}>
+      {/* Logo */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+        <img
+          src={logoIconSrc}
+          alt="Cyber Actor Atlas logo"
+          style={{
+            width: '30px',
+            height: '30px',
+            borderRadius: '8px',
+            objectFit: 'cover',
+            flexShrink: 0,
+            boxShadow: '0 0 14px rgba(255, 60, 110, 0.45), 0 0 4px rgba(255, 60, 110, 0.2)',
+          }}
+        />
+        <div>
+          <div style={{
+            fontFamily: 'var(--font-mono)',
+            fontWeight: 700,
+            fontSize: '14px',
+            letterSpacing: '-0.3px',
+            background: 'linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            lineHeight: 1.1,
+          }}>
+            Cyber Actor Atlas
+          </div>
+          <div style={{
+            fontSize: '10px',
+            color: 'var(--text-faint)',
+            fontFamily: 'var(--font-mono)',
+            marginTop: '2px',
+          }}>
+            cyber actor origin map
+          </div>
         </div>
-        <div style={styles.searchWrap}>
+      </div>
+
+      {/* Divider */}
+      <div style={{
+        width: '1px',
+        height: '22px',
+        background: 'var(--border2)',
+        flexShrink: 0,
+      }} />
+
+      {/* Live status dot + actor count */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '7px', flexShrink: 0 }}>
+        <div style={{
+          width: '6px',
+          height: '6px',
+          borderRadius: '50%',
+          background: 'var(--cool)',
+          flexShrink: 0,
+          animation: 'pulse-dot 2.5s ease-in-out infinite',
+        }} />
+        <span style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '11px',
+          color: 'var(--text-muted)',
+        }}>
+          {loading ? 'loading…' : `${totalGroups} actors`}
+        </span>
+      </div>
+
+      {/* Right controls */}
+      <div style={{
+        marginLeft: 'auto',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-end',
+      }}>
+        {/* Search */}
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <svg
+            width="13" height="13" viewBox="0 0 24 24"
+            fill="none" stroke="rgba(255,255,255,0.22)"
+            strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+            style={{ position: 'absolute', left: '10px', pointerEvents: 'none', flexShrink: 0 }}
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
           <input
             type="text"
+            className="search-input"
             value={searchQuery}
-            onChange={(event) => onSearchChange(event.target.value)}
-            placeholder="Search all actors, aliases, tags..."
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search actors, aliases, tags…"
             aria-label="Search all mapped actors"
-            style={styles.searchInput}
+            style={{
+              width: '262px',
+              maxWidth: '30vw',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              color: 'var(--text)',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '0.5px solid var(--border2)',
+              borderRadius: 'var(--radius-md)',
+              padding: '7px 30px 7px 30px',
+              outline: 'none',
+              transition: 'border-color 0.2s, box-shadow 0.2s, background 0.2s',
+            }}
           />
-          {searchQuery ? (
+          {searchQuery && (
             <button
               type="button"
               onClick={() => onSearchChange('')}
               aria-label="Clear search"
-              style={styles.clearButton}
+              style={{
+                position: 'absolute',
+                right: '8px',
+                background: 'none',
+                border: 'none',
+                color: 'var(--text-faint)',
+                cursor: 'pointer',
+                fontSize: '15px',
+                lineHeight: 1,
+                padding: '2px 4px',
+              }}
             >
-              x
+              ×
             </button>
-          ) : null}
+          )}
         </div>
-        <a href={`${baseUrl}data/cyber-actor-atlas.csv`} download style={styles.downloadLink}>
-          CSV / Excel
+
+        {/* CSV download */}
+        <a
+          href={`${baseUrl}data/cyber-actor-atlas.csv`}
+          download
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            color: 'var(--text-muted)',
+            background: 'rgba(255, 255, 255, 0.04)',
+            padding: '5px 10px',
+            borderRadius: 'var(--radius-sm)',
+            border: '0.5px solid var(--border2)',
+            textDecoration: 'none',
+            letterSpacing: '0.3px',
+            transition: 'color 0.15s, border-color 0.15s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--accent)';
+            e.currentTarget.style.borderColor = 'rgba(255,60,110,0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-muted)';
+            e.currentTarget.style.borderColor = 'var(--border2)';
+          }}
+        >
+          ↓ CSV
         </a>
-        <a href={`${baseUrl}data/cyber-actor-atlas.json`} download style={styles.downloadLink}>
-          JSON
+
+        {/* JSON download */}
+        <a
+          href={`${baseUrl}data/cyber-actor-atlas.json`}
+          download
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            color: 'var(--text-muted)',
+            background: 'rgba(255, 255, 255, 0.04)',
+            padding: '5px 10px',
+            borderRadius: 'var(--radius-sm)',
+            border: '0.5px solid var(--border2)',
+            textDecoration: 'none',
+            letterSpacing: '0.3px',
+            transition: 'color 0.15s, border-color 0.15s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--accent2)';
+            e.currentTarget.style.borderColor = 'rgba(124,92,252,0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-muted)';
+            e.currentTarget.style.borderColor = 'var(--border2)';
+          }}
+        >
+          ↓ JSON
         </a>
-        <div style={styles.badge}>{time}</div>
-        <div style={styles.cityBadge}>Public attribution</div>
+
+        {/* Clock */}
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '11px',
+          color: 'var(--text-faint)',
+          padding: '5px 10px',
+          borderRadius: 'var(--radius-sm)',
+          border: '0.5px solid var(--border)',
+          background: 'rgba(255, 255, 255, 0.02)',
+          letterSpacing: '0.5px',
+        }}>
+          {time}
+        </div>
+
+        {/* Public attribution badge */}
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '10px',
+          color: 'var(--cool)',
+          padding: '5px 10px',
+          borderRadius: 'var(--radius-sm)',
+          border: '0.5px solid rgba(60, 240, 160, 0.25)',
+          background: 'rgba(60, 240, 160, 0.06)',
+          letterSpacing: '0.3px',
+        }}>
+          Public attribution
+        </div>
       </div>
     </nav>
   );

@@ -1,10 +1,8 @@
 export const GROUP_TYPES = [
   'ransomware',
   'banking-theft',
-  'carding',
-  'bec-fraud',
-  'financial-fraud',
-  'crypto-crime',
+  'fraud',
+  'financial-crime',
   'darknet-market',
   'state-linked-theft',
   'white-hat',
@@ -26,29 +24,17 @@ export const TYPE_META = {
     bg: 'rgba(255, 157, 66, 0.14)',
     border: 'rgba(255, 157, 66, 0.28)',
   },
-  carding: {
-    label: 'Carding',
-    color: '#ffd166',
-    bg: 'rgba(255, 209, 102, 0.14)',
-    border: 'rgba(255, 209, 102, 0.28)',
+  fraud: {
+    label: 'Fraud',
+    color: '#f5c842',
+    bg: 'rgba(245, 200, 66, 0.14)',
+    border: 'rgba(245, 200, 66, 0.28)',
   },
-  'bec-fraud': {
-    label: 'BEC / Fraud',
-    color: '#40d5c8',
-    bg: 'rgba(64, 213, 200, 0.14)',
-    border: 'rgba(64, 213, 200, 0.28)',
-  },
-  'financial-fraud': {
-    label: 'Financial Fraud',
-    color: '#2fd4a7',
-    bg: 'rgba(47, 212, 167, 0.14)',
-    border: 'rgba(47, 212, 167, 0.28)',
-  },
-  'crypto-crime': {
-    label: 'Crypto Crime',
-    color: '#6cc6ff',
-    bg: 'rgba(108, 198, 255, 0.14)',
-    border: 'rgba(108, 198, 255, 0.28)',
+  'financial-crime': {
+    label: 'Financial Crime',
+    color: '#38c9e0',
+    bg: 'rgba(56, 201, 224, 0.14)',
+    border: 'rgba(56, 201, 224, 0.28)',
   },
   'darknet-market': {
     label: 'Darknet Market',
@@ -232,7 +218,7 @@ export const GROUPS = [
   {
     id: 'fin7',
     name: 'FIN7',
-    type: 'carding',
+    type: 'fraud',
     country: 'Ukraine',
     city: 'Kyiv',
     lat: 50.4501,
@@ -308,7 +294,7 @@ export const GROUPS = [
   {
     id: 'gold-skyline',
     name: 'GOLD SKYLINE',
-    type: 'bec-fraud',
+    type: 'fraud',
     country: 'Nigeria',
     city: 'Abuja',
     lat: 9.0765,
@@ -327,7 +313,7 @@ export const GROUPS = [
   {
     id: 'gold-galleon',
     name: 'GOLD GALLEON',
-    type: 'bec-fraud',
+    type: 'fraud',
     country: 'Nigeria',
     city: 'Abuja',
     lat: 9.0765,
@@ -460,7 +446,7 @@ export const GROUPS = [
   {
     id: 'silverterrier',
     name: 'SilverTerrier',
-    type: 'bec-fraud',
+    type: 'fraud',
     country: 'Nigeria',
     city: 'Abuja',
     lat: 9.0765,
@@ -764,7 +750,7 @@ export const GROUPS = [
   {
     id: 'fin5',
     name: 'FIN5',
-    type: 'carding',
+    type: 'fraud',
     country: 'Russia',
     city: 'Moscow',
     lat: 55.7558,
@@ -783,7 +769,7 @@ export const GROUPS = [
   {
     id: 'fin6',
     name: 'FIN6',
-    type: 'carding',
+    type: 'fraud',
     country: 'Russia',
     city: 'Moscow',
     lat: 55.7558,
@@ -878,7 +864,7 @@ export const GROUPS = [
   {
     id: 'tradertraitor',
     name: 'TraderTraitor',
-    type: 'crypto-crime',
+    type: 'financial-crime',
     country: 'North Korea',
     city: 'Pyongyang',
     lat: 39.0392,
@@ -897,7 +883,7 @@ export const GROUPS = [
   {
     id: 'applejeus',
     name: 'AppleJeus',
-    type: 'crypto-crime',
+    type: 'financial-crime',
     country: 'North Korea',
     city: 'Pyongyang',
     lat: 39.0392,
@@ -916,7 +902,7 @@ export const GROUPS = [
   {
     id: 'business-club',
     name: 'Business Club / GameOver Zeus',
-    type: 'financial-fraud',
+    type: 'financial-crime',
     country: 'Russia',
     city: 'Moscow',
     lat: 55.7558,
@@ -935,7 +921,7 @@ export const GROUPS = [
   {
     id: 'cosmic-lynx',
     name: 'Cosmic Lynx',
-    type: 'financial-fraud',
+    type: 'financial-crime',
     country: 'Russia',
     city: 'Moscow',
     lat: 55.7558,
@@ -973,7 +959,7 @@ export const GROUPS = [
   {
     id: 'moneytaker',
     name: 'MoneyTaker',
-    type: 'financial-fraud',
+    type: 'financial-crime',
     country: 'Russia',
     city: 'Moscow',
     lat: 55.7558,

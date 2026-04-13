@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { getDisplayName, getTypeMeta, hasMapLocation } from '../data/groups.js';
+import { GROUPS, getDisplayName, getTypeMeta, hasMapLocation } from '../data/groups.js';
 
+// Light tile layer
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>';
@@ -30,10 +31,10 @@ function makeIcon(group, selected) {
   const size = markerSize(group, selected);
   const border = selected
     ? '2.5px solid rgba(255,255,255,0.92)'
-    : '2px solid rgba(0,0,0,0.3)';
+    : '1.5px solid rgba(255,255,255,0.18)';
   const shadow = selected
-    ? `0 0 0 5px rgba(255,255,255,0.16), 0 0 16px ${color}88`
-    : `0 1px 5px rgba(0,0,0,0.28), 0 0 8px ${color}55`;
+    ? `0 0 0 5px rgba(255,255,255,0.13), 0 0 18px ${color}bb`
+    : `0 1px 6px rgba(0,0,0,0.5), 0 0 10px ${color}66`;
 
   return L.divIcon({
     className: '',
@@ -67,14 +68,14 @@ function popupHTML(group) {
   return `
     <div style="
       font-family:'DM Sans',sans-serif;
-      padding:10px 13px;
+      padding:11px 14px;
       min-width:210px;
-      color:#1a1a2e;
+      color:#eeeef5;
     ">
-      <div style="font-weight:700;font-size:13px;margin-bottom:3px;">
+      <div style="font-weight:700;font-size:13px;margin-bottom:2px;color:#eeeef5;">
         ${displayName}
       </div>
-      <div style="font-size:10px;color:#6b7280;margin-bottom:8px;">
+      <div style="font-size:10px;color:#48485f;margin-bottom:9px;">
         ${escapeHtml(group.city)}, ${escapeHtml(group.country)}
       </div>
       <div style="
@@ -83,24 +84,29 @@ function popupHTML(group) {
         font-size:10px;font-weight:700;
         padding:2px 8px;border-radius:4px;
         background:${type.bg};color:${type.color};
-        border:1px solid ${type.border};
-        margin-bottom:6px;
+        border:0.5px solid ${type.border};
+        margin-bottom:8px;
+        letter-spacing:0.2px;
       ">
         ${escapeHtml(type.label)}
       </div>
       <div style="
-        font-size:10px;color:#536071;
-        background:rgba(114,168,255,0.08);
-        border-radius:4px;padding:4px 7px;
-        margin-bottom:6px;
+        font-size:10px;
+        color:#7b7b9a;
+        background:rgba(255,255,255,0.04);
+        border:0.5px solid rgba(255,255,255,0.08);
+        border-radius:6px;
+        padding:4px 8px;
+        font-family:'Space Mono',monospace;
+        letter-spacing:0.2px;
       ">
-        First seen: ${escapeHtml(String(group.firstSeen))} · Scope: ${escapeHtml(group.scope)}
+        Since ${escapeHtml(String(group.firstSeen))} &nbsp;·&nbsp; ${escapeHtml(group.scope)}
       </div>
     </div>
   `;
 }
 
-export default function MapView({ venues, selectedVenue, onSelectVenue, onBoundsChange, searchActive }) {
+export default function MapView({ venues, selectedVenue, onSelectVenue, onBoundsChange, searchActive, activeFilter }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const layersRef = useRef({});
@@ -158,7 +164,6 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
     if (!map) return;
 
     const mappableVenues = venues.filter(hasMapLocation);
-
     const currentIds = new Set(mappableVenues.map((group) => group.id));
     const existingIds = new Set(Object.keys(layersRef.current));
 
@@ -175,13 +180,13 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
       if (layersRef.current[group.id]) return;
 
       const color = markerColor(group);
-      const radius = group.scope === 'Global' ? 24 : 18;
+      const radius = group.scope === 'Global' ? 22 : 16;
 
       const halo = L.circleMarker([group.lat, group.lng], {
         radius,
         color: 'transparent',
         fillColor: color,
-        fillOpacity: group.scope === 'Global' ? 0.16 : 0.1,
+        fillOpacity: group.scope === 'Global' ? 0.14 : 0.09,
         interactive: false,
       }).addTo(map);
 
@@ -197,7 +202,7 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
       marker.bindPopup(popupHTML(group), {
         closeButton: false,
         offset: [0, -8],
-        maxWidth: 240,
+        maxWidth: 250,
       });
 
       marker.on('mouseover', () => marker.openPopup());
@@ -232,6 +237,27 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
       maxZoom: mappableVenues.length === 1 ? 5 : 4,
     });
   }, [searchActive, searchKey, venues]);
+
+  // Zoom to fit all actors in the selected category when filter changes
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    if (activeFilter === 'all') {
+      map.flyTo(INITIAL_CENTER, INITIAL_ZOOM, { duration: 1.0 });
+      return;
+    }
+
+    const targets = GROUPS.filter((g) => g.type === activeFilter && hasMapLocation(g));
+    if (targets.length === 0) return;
+
+    if (targets.length === 1) {
+      map.flyTo([targets[0].lat, targets[0].lng], 5, { duration: 1.0 });
+    } else {
+      const bounds = L.latLngBounds(targets.map((g) => [g.lat, g.lng]));
+      map.fitBounds(bounds, { padding: [60, 60], maxZoom: 6, animate: true });
+    }
+  }, [activeFilter]);
 
   return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
 }
