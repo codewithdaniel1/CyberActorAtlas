@@ -103,7 +103,7 @@ const styles = {
 export default function NavBar({ loading, totalGroups, searchQuery, onSearchChange }) {
   const [time, setTime] = useState('');
   const baseUrl = import.meta.env.BASE_URL;
-  const logoIconSrc = `${baseUrl}branding/cyberactoratlas-icon.png`;
+  const logoIconSrc = `${baseUrl}branding/cyberactoratlas-icon-v2.png`;
 
   useEffect(() => {
     const tick = () => {
