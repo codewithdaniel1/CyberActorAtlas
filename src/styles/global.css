@@ -86,21 +86,3 @@ html, body, #root {
   font-size: 16px !important;
   padding: 4px 6px !important;
 }
-
-/* Custom venue dot marker */
-.pulse-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.pulse-dot {
-  border-radius: 50%;
-  border: 2px solid rgba(0,0,0,0.35);
-  transition: transform 0.15s;
-}
-.pulse-dot:hover { transform: scale(1.3); }
-.pulse-dot.selected {
-  transform: scale(1.4);
-  border-color: rgba(255,255,255,0.7);
-  box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
-}

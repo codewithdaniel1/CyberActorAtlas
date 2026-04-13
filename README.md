@@ -20,6 +20,26 @@ npm install
 npm run dev
 ```
 
+## Hosting on GitHub Pages
+
+This repo is configured to deploy to GitHub Pages from the `main` branch using GitHub Actions.
+
+Expected site URL:
+
+- `https://codewithdaniel1.github.io/CyberActorAtlas/`
+
+Setup steps:
+
+1. In the GitHub repo, open `Settings` -> `Pages`.
+2. Under `Build and deployment`, set `Source` to `GitHub Actions`.
+3. Push to `main`.
+4. Wait for the `Deploy static content to Pages` workflow to finish in the `Actions` tab.
+
+Notes:
+
+- The Vite build is configured with the repo base path `/CyberActorAtlas/` for production builds so assets load correctly on GitHub Pages.
+- Download links for the CSV and JSON exports also use the GitHub Pages base path, so the public dataset remains downloadable from the hosted site.
+
 ## What changed
 
 The app now uses a bundled static dataset instead of live venue lookups. The map centers on the world, and the sidebar tracks whichever mapped groups are currently inside the viewport.
@@ -214,6 +234,9 @@ When adding or editing a group entry, the workflow is:
 ## Project structure
 
 ```text
+.github/
+└── workflows/
+    └── deploy.yml
 public/
 └── data/
     ├── cyber-actor-atlas.csv

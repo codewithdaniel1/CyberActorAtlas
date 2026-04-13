@@ -102,9 +102,9 @@ const styles = {
 
 // Inject keyframes once
 const injectKeyframes = () => {
-  if (document.getElementById('pulse-keyframes')) return;
+  if (document.getElementById('atlas-keyframes')) return;
   const style = document.createElement('style');
-  style.id = 'pulse-keyframes';
+  style.id = 'atlas-keyframes';
   style.textContent = `
     @keyframes pulseBlink {
       0%, 100% { opacity: 1; transform: scale(1); }
@@ -116,6 +116,7 @@ const injectKeyframes = () => {
 
 export default function NavBar({ loading, totalGroups, searchQuery, onSearchChange }) {
   const [time, setTime] = useState('');
+  const baseUrl = import.meta.env.BASE_URL;
 
   useEffect(() => {
     injectKeyframes();
@@ -163,10 +164,10 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
             </button>
           ) : null}
         </div>
-        <a href="/data/cyber-actor-atlas.csv" download style={styles.downloadLink}>
+        <a href={`${baseUrl}data/cyber-actor-atlas.csv`} download style={styles.downloadLink}>
           CSV / Excel
         </a>
-        <a href="/data/cyber-actor-atlas.json" download style={styles.downloadLink}>
+        <a href={`${baseUrl}data/cyber-actor-atlas.json`} download style={styles.downloadLink}>
           JSON
         </a>
         <div style={styles.badge}>{time}</div>
