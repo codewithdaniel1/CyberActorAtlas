@@ -1,4 +1,4 @@
-# Cber Actor Atlas
+# Cyber Actor Atlas
 
 React + Vite + Leaflet map for exploring the publicly reported origins of cyber actors, including malicious groups and defensive white-hat organizations.
 
@@ -57,6 +57,7 @@ The app does not claim precise geolocation of people. Pins represent the best pu
 - If reporting names a city, the pin uses that city
 - If reporting only names a country, the pin is placed on the national capital for readability
 - If the entry is a legitimate white-hat organization, the pin uses the organization origin described on its official site or the most relevant official office / headquarters location
+- If the entry is a security team inside a larger company, the team name comes from the official product or research page while the pin uses the parent organization’s official headquarters location
 - Latitude and longitude are manually assigned map coordinates used for visualization
 
 This means the map is best read as an origin-attribution atlas, not a precise operational geolocation system.
@@ -79,7 +80,7 @@ Editorial or normalized by this project:
 
 ### Important limitation
 
-Some malicious groups have conflicting or incomplete public attribution. In those cases, the dataset uses the strongest public source I could find and keeps the wording intentionally cautious. White-hat entries are included as official organizations, not attributed threat actors. This repository should be treated as a research-driven visualization layer over public reporting, not as a canonical intelligence database.
+Some malicious groups have conflicting or incomplete public attribution. In those cases, the dataset uses the strongest public source I could find, and a small number of entries rely on converging public reporting rather than a single indictment or sanctions notice. White-hat entries are included as official organizations, not attributed threat actors. This repository should be treated as a research-driven visualization layer over public reporting, not as a canonical intelligence database.
 
 ## Sources
 
@@ -101,7 +102,19 @@ Primary source families used in the current dataset:
   [Gorgon Group](https://attack.mitre.org/groups/G0078/),
   [APT41](https://attack.mitre.org/groups/G0096/),
   [Moonstone Sleet](https://attack.mitre.org/groups/G1036/),
-  [CyberAv3ngers](https://attack.mitre.org/groups/G1027/)
+  [CyberAv3ngers](https://attack.mitre.org/groups/G1027/),
+  [APT28](https://attack.mitre.org/groups/G0007/),
+  [APT29](https://attack.mitre.org/groups/G0016/),
+  [Sandworm Team](https://attack.mitre.org/groups/G0034/),
+  [Turla](https://attack.mitre.org/groups/G0010/),
+  [LAPSUS$](https://attack.mitre.org/groups/G1004/),
+  [TA505](https://attack.mitre.org/groups/G0092/),
+  [FIN5](https://attack.mitre.org/groups/G0053/),
+  [FIN6](https://attack.mitre.org/groups/G0037/),
+  [Play](https://attack.mitre.org/groups/G1040/),
+  [BlackByte](https://attack.mitre.org/groups/G1043/),
+  [Medusa Group](https://attack.mitre.org/groups/G1051/),
+  [Mustard Tempest](https://attack.mitre.org/groups/G1020/)
 - CISA and partner advisories:
   [BianLian](https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-136a)
 - Secureworks CTU:
@@ -117,7 +130,15 @@ Primary source families used in the current dataset:
   [CERT/CC](https://www.sei.cmu.edu/about/divisions/cert/),
   [CISA](https://www.cisa.gov/about),
   [FIRST](https://www.first.org/about/),
-  [OWASP Foundation](https://owasp.org/about/)
+  [OWASP Foundation](https://owasp.org/about/),
+  [Microsoft Threat Analysis Center](https://www.microsoft.com/en-us/corporate-responsibility/customer-security-trust/microsoft-threat-analysis-center),
+  [Microsoft office locations](https://www.microsoft.com/en-us/about/office-locations),
+  [Google Threat Intelligence](https://cloud.google.com/security/threats),
+  [Google Mountain View HQ](https://www.google.com/about/careers/applications/locations/mountain-view/),
+  [Cisco Talos](https://www.cisco.com/site/uk/en/products/security/talos/index.html),
+  [Mandiant](https://cloud.google.com/security/mandiant),
+  [Shadowserver Foundation fact sheet](https://www.shadowserver.org/wp-content/uploads/2022/10/Shadowserver-Overview-v1.5-2022-10-04.pdf),
+  [Team Cymru contact page](https://www.team-cymru.com/contact-us)
 
 ## Updating the data
 

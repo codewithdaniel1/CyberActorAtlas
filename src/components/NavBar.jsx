@@ -96,7 +96,7 @@ export default function NavBar({ loading, visibleCount }) {
     <nav style={styles.nav}>
       <div style={styles.logo}>
       <div style={{ ...styles.liveDot, background: loading ? 'var(--warm)' : 'var(--hot)' }} />
-        Cber Actor Atlas
+        Cyber Actor Atlas
         <span style={styles.tagline}>cyber actor origin map</span>
       </div>
       <div style={styles.right}>
