@@ -8,7 +8,7 @@ The atlas brings together ransomware groups, banking theft actors, fraud operato
 
 ## What You Can Do
 
-- Browse 489 curated actors on an interactive world map
+- Browse 491 curated actors on an interactive world map
 - Search by actor name, alias, tag, or keyword
 - Filter by actor category, including a dedicated **Decentralized** filter for groups with no fixed origin
 - Open a detail panel with origin, aliases, first-seen year, activity summary, and attribution note
