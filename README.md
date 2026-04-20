@@ -1,4 +1,4 @@
-![Cyber Actor Atlas banner](./public/branding/cyberactoratlas-logo-full.jpg)
+![Cyber Actor Atlas banner](./public/branding/cyberactoratlas-logo-banner.svg)
 
 Hi my name is Daniel. I am a Graduate Student Researcher at NYU Center for Cybersecurity. 
 
