@@ -3,10 +3,11 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { getDisplayName, getTypeMeta, hasMapLocation } from '../data/groups.js';
 
-// Light tile layer
-const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+// Official OpenStreetMap raster tiles. Keep the attribution visible and avoid
+// prefetching or bulk downloads in accordance with the tile usage policy.
+const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const TILE_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>';
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const INITIAL_CENTER = [22, 8];
 const INITIAL_ZOOM = 2;
@@ -216,7 +217,6 @@ export default function MapView({ venues, allVenues, selectedVenue, onSelectVenu
     L.tileLayer(TILE_URL, {
       attribution: TILE_ATTRIBUTION,
       maxZoom: 19,
-      subdomains: 'abcd',
     }).addTo(map);
 
     mapRef.current = map;
