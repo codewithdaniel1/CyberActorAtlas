@@ -1,17 +1,18 @@
-import React from 'react';
 import { GROUP_TYPES, getTypeMeta } from '../data/groups.js';
 
-const FILTERS = ['all', ...GROUP_TYPES, 'decentralized'];
+const FILTERS = ['all', ...GROUP_TYPES, 'decentralized', 'unknown'];
 
 const LABELS = {
   all: 'All',
   decentralized: 'Decentralized',
+  unknown: 'Unknown origin',
   ...GROUP_TYPES.reduce((acc, key) => { acc[key] = getTypeMeta(key).label; return acc; }, {}),
 };
 
 function getChipMeta(key) {
   if (key === 'all') return { color: '#ff3c6e', bg: 'rgba(255,60,110,0.12)', border: 'rgba(255,60,110,0.35)' };
   if (key === 'decentralized') return { color: '#a0a0cc', bg: 'rgba(160,160,204,0.14)', border: 'rgba(160,160,204,0.30)' };
+  if (key === 'unknown') return { color: '#57c7ff', bg: 'rgba(87,199,255,0.12)', border: 'rgba(87,199,255,0.32)' };
   return getTypeMeta(key);
 }
 
@@ -33,6 +34,9 @@ export default function FilterBar({ active, onChange }) {
         return (
           <button
             key={f}
+            type="button"
+            className="filter-chip"
+            aria-pressed={isActive}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -49,7 +53,6 @@ export default function FilterBar({ active, onChange }) {
               color: isActive ? meta.color : 'var(--text-muted)',
               cursor: 'pointer',
               whiteSpace: 'nowrap',
-              outline: 'none',
               boxShadow: isActive ? `0 0 14px ${meta.bg}` : 'none',
               transition: 'all 0.18s ease',
             }}

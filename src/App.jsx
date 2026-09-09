@@ -1,41 +1,11 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import NavBar from './components/NavBar.jsx';
 import FilterBar from './components/FilterBar.jsx';
 import MapView from './components/MapView.jsx';
 import VenueList from './components/VenueList.jsx';
 import DetailPanel from './components/DetailPanel.jsx';
 import { useGroups } from './hooks/useGroups.js';
-import { GROUPS } from './data/groups.js';
-
-const styles = {
-  app: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100vh',
-    width: '100vw',
-    overflow: 'hidden',
-    background: 'var(--bg)',
-  },
-  main: {
-    display: 'flex',
-    flex: 1,
-    overflow: 'hidden',
-  },
-  mapWrapper: {
-    flex: 1,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  sidePanel: {
-    width: '360px',
-    borderLeft: '0.5px solid var(--border)',
-    background: 'var(--surface)',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-    flexShrink: 0,
-  },
-};
+import { useDataset } from './hooks/useDataset.js';
 
 export default function App() {
   const [activeFilter, setActiveFilter]   = useState('all');
@@ -43,53 +13,53 @@ export default function App() {
   const [mapBounds, setMapBounds]         = useState(null);
   const [searchQuery, setSearchQuery]     = useState('');
 
-  const { groups, loading } = useGroups(activeFilter, mapBounds, searchQuery);
+  const { groups: allGroups, loading, error } = useDataset();
+  const groups = useGroups(allGroups, activeFilter, mapBounds, searchQuery);
+  const visibleSelectedGroup = selectedGroup
+    && groups.some((group) => group.id === selectedGroup.id)
+    ? selectedGroup
+    : null;
 
   const handleBoundsChange = useCallback((bounds) => {
     setMapBounds(bounds);
   }, []);
 
-  // Clear selection when the selected group leaves the current result set
-  useEffect(() => {
-    if (selectedGroup && !groups.find((group) => group.id === selectedGroup.id)) {
-      setSelectedGroup(null);
-    }
-  }, [groups, selectedGroup]);
-
   return (
-    <div style={styles.app}>
+    <div className="app-shell">
       <NavBar
         loading={loading}
-        totalGroups={GROUPS.length}
+        totalGroups={allGroups.length}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
       />
       <FilterBar active={activeFilter} onChange={setActiveFilter} />
-      <div style={styles.main}>
-        <div style={styles.mapWrapper}>
+      <main className="app-main">
+        <section className="map-wrapper" aria-label="Cyber actor origin map">
           <MapView
             venues={groups}
-            selectedVenue={selectedGroup}
+            selectedVenue={visibleSelectedGroup}
             onSelectVenue={setSelectedGroup}
             onBoundsChange={handleBoundsChange}
             searchActive={searchQuery.trim().length > 0}
             activeFilter={activeFilter}
+            allVenues={allGroups}
           />
-        </div>
-        <div style={styles.sidePanel}>
+        </section>
+        <aside className="side-panel" aria-label="Actor results and details">
           <VenueList
             venues={groups}
-            selectedVenue={selectedGroup}
+            selectedVenue={visibleSelectedGroup}
             onSelectVenue={setSelectedGroup}
             loading={loading}
             searchQuery={searchQuery}
+            error={error}
           />
           <DetailPanel
-            venue={selectedGroup}
+            venue={visibleSelectedGroup}
             onClose={() => setSelectedGroup(null)}
           />
-        </div>
-      </div>
+        </aside>
+      </main>
     </div>
   );
 }

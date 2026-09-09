@@ -1,4 +1,12 @@
-import { GROUPS, getDisplayName, getTypeMeta, hasMapLocation, scopeWeight } from '../data/groups.js';
+import { useMemo } from 'react';
+import {
+  getDisplayName,
+  getTypeMeta,
+  hasMapLocation,
+  isDecentralizedOrigin,
+  isUnknownOrigin,
+  scopeWeight,
+} from '../data/groups.js';
 
 function matchesBounds(group, bounds) {
   if (!bounds) return true;
@@ -39,18 +47,22 @@ function matchesSearch(group, searchQuery) {
   return terms.every((term) => haystack.includes(term));
 }
 
-export function useGroups(activeFilter, mapBounds, searchQuery) {
+export function filterGroups(sourceGroups, activeFilter, mapBounds, searchQuery) {
   const hasSearch = searchQuery.trim().length > 0;
   const showAllAtWorldView = (mapBounds?.zoom ?? Infinity) <= 2;
-  const groups = GROUPS
+  return sourceGroups
     .filter((group) => {
-      if (hasSearch) return true;
       if (activeFilter === 'all') return true;
-      if (activeFilter === 'decentralized') return !hasMapLocation(group);
+      if (activeFilter === 'decentralized') return isDecentralizedOrigin(group);
+      if (activeFilter === 'unknown') return isUnknownOrigin(group);
       return group.type === activeFilter;
     })
     .filter((group) => matchesSearch(group, searchQuery))
-    .filter((group) => hasSearch || showAllAtWorldView || activeFilter === 'decentralized' || matchesBounds(group, mapBounds))
+    .filter((group) => hasSearch
+      || showAllAtWorldView
+      || activeFilter === 'decentralized'
+      || activeFilter === 'unknown'
+      || matchesBounds(group, mapBounds))
     .sort((a, b) => {
       if (a.scope !== b.scope) {
         return scopeWeight(b.scope) - scopeWeight(a.scope);
@@ -58,10 +70,11 @@ export function useGroups(activeFilter, mapBounds, searchQuery) {
 
       return getDisplayName(a).localeCompare(getDisplayName(b));
     });
+}
 
-  return {
-    groups,
-    loading: false,
-    error: null,
-  };
+export function useGroups(sourceGroups, activeFilter, mapBounds, searchQuery) {
+  return useMemo(
+    () => filterGroups(sourceGroups, activeFilter, mapBounds, searchQuery),
+    [sourceGroups, activeFilter, mapBounds, searchQuery],
+  );
 }

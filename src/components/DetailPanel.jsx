@@ -1,4 +1,3 @@
-import React from 'react';
 import { getDisplayName, getLocationLabel, getTypeMeta } from '../data/groups.js';
 
 const PANEL_HEIGHT = 300;
@@ -48,13 +47,12 @@ export default function DetailPanel({ venue, onClose }) {
     : 'var(--surface2)';
 
   return (
-    <div style={{
+    <div className={`detail-panel${open ? ' is-open' : ''}`} style={{
       borderTop: '0.5px solid var(--border2)',
       background: bgGradient,
       flexShrink: 0,
       overflow: 'hidden',
-      transition: 'height 0.28s cubic-bezier(0.4, 0, 0.2, 1)',
-      height: open ? `${PANEL_HEIGHT}px` : '0px',
+      '--detail-panel-height': `${PANEL_HEIGHT}px`,
     }}>
       {venue && (
         <div style={{
@@ -210,8 +208,18 @@ export default function DetailPanel({ venue, onClose }) {
           </div>
 
           {/* Source footer */}
-          <div style={{ fontSize: '10px', color: 'var(--text-faint)', lineHeight: 1.4 }}>
-            Source: {venue.sourceLabel}
+          <div style={{ fontSize: '11px', color: 'var(--text-faint)', lineHeight: 1.5 }}>
+            Source:{' '}
+            {venue.sourceUrl ? (
+              <a className="source-link" href={venue.sourceUrl} target="_blank" rel="noreferrer">
+                {venue.sourceLabel}
+              </a>
+            ) : (
+              venue.sourceLabel
+            )}
+            <span className={`review-status ${(venue.reviewStatus ?? 'needs-review') === 'reviewed' ? 'is-reviewed' : ''}`}>
+              {(venue.reviewStatus ?? 'needs-review') === 'reviewed' ? 'Reviewed' : 'Source review needed'}
+            </span>
           </div>
         </div>
       )}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { getDisplayName, getLocationLabel, getTypeMeta } from '../data/groups.js';
 
 function pillStyle(meta) {
@@ -26,10 +25,18 @@ export default function VenueCard({ venue, selected, onClick }) {
   const selectedGlow = type.bg.replace('0.14', '0.08');
 
   return (
-    <div
+    <button
+      type="button"
       className="venue-card"
       onClick={onClick}
+      aria-pressed={selected}
+      aria-label={`${displayName}, ${locationLabel}`}
       style={{
+        width: '100%',
+        color: 'inherit',
+        fontFamily: 'inherit',
+        textAlign: 'left',
+        cursor: 'pointer',
         position: 'relative',
         background: selected ? type.bg.replace('0.14', '0.09') : 'rgba(255,255,255,0.018)',
         border: selected
@@ -132,6 +139,6 @@ export default function VenueCard({ venue, selected, onClick }) {
         <span>Since {venue.firstSeen}</span>
         <span>{venue.sourceLabel}</span>
       </div>
-    </div>
+    </button>
   );
 }

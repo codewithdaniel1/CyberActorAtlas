@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function NavBar({ loading, totalGroups, searchQuery, onSearchChange }) {
   const [time, setTime] = useState('');
@@ -96,7 +96,7 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
       </div>
 
       {/* Right controls */}
-      <div style={{
+      <div className="navbar-controls" style={{
         marginLeft: 'auto',
         display: 'flex',
         alignItems: 'center',
@@ -105,7 +105,7 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
         justifyContent: 'flex-end',
       }}>
         {/* Search */}
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div className="search-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
           <svg
             width="13" height="13" viewBox="0 0 24 24"
             fill="none" stroke="rgba(255,255,255,0.22)"
@@ -160,6 +160,7 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
 
         {/* CSV download */}
         <a
+          className="download-link"
           href={`${baseUrl}data/cyber-actor-atlas.csv`}
           download
           style={{
@@ -188,6 +189,7 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
 
         {/* JSON download */}
         <a
+          className="download-link"
           href={`${baseUrl}data/cyber-actor-atlas.json`}
           download
           style={{
@@ -215,7 +217,7 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
         </a>
 
         {/* Clock */}
-        <div style={{
+        <div className="nav-clock" style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '11px',
           color: 'var(--text-faint)',
@@ -229,7 +231,7 @@ export default function NavBar({ loading, totalGroups, searchQuery, onSearchChan
         </div>
 
         {/* Public attribution badge */}
-        <div style={{
+        <div className="nav-attribution" style={{
           fontFamily: 'var(--font-mono)',
           fontSize: '10px',
           color: 'var(--cool)',

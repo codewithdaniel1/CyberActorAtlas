@@ -2,7 +2,7 @@
 
 Hi my name is Daniel. I am a Graduate Student Researcher at NYU Center for Cybersecurity. 
 
-I created [Cyber Actor Atlas](https://cyberactoratlas.pages.dev/) as an open-source map and downloadable dataset for exploring the publicly reported origins of cyber actors. It is designed as a lightweight research and education resource for people who want a clearer geographic view of how named actors are described in public reporting.
+I created [Cyber Actor Atlas](https://cyberactoratlas.pages.dev/) as a public map and downloadable dataset for exploring the publicly reported origins of cyber actors. It is designed as a lightweight research and education resource for people who want a clearer geographic view of how named actors are described in public reporting.
 
 The atlas brings together ransomware groups, banking theft actors, fraud operators, financial crime groups, darknet market operators, hacktivist collectives, state-linked theft groups, access brokers, and a broad set of defensive and white-hat organizations for context. Coverage spans actors from Russia, China, North Korea, Iran, Israel, Pakistan, Iraq, Bangladesh, India, Nigeria, Brazil, Cambodia, the Philippines, the United States, Western Europe, and beyond — including decentralized hacktivist coalitions and groups with no fixed geographic origin.
 
@@ -10,7 +10,7 @@ The atlas brings together ransomware groups, banking theft actors, fraud operato
 
 - Browse 491 curated actors on an interactive world map
 - Search by actor name, alias, tag, or keyword
-- Filter by actor category, including a dedicated **Decentralized** filter for groups with no fixed origin
+- Filter by actor category, with separate **Decentralized** and **Unknown origin** filters
 - Open a detail panel with origin, aliases, first-seen year, activity summary, and attribution note
 - Download the dataset as CSV or JSON
 
@@ -55,9 +55,16 @@ Each entry is built around a small set of fields that make the atlas readable an
 - First-seen year
 - Short activity summary
 - Attribution note
-- Source label
+- Source label and, when reviewed, a direct source URL
+- Attribution confidence, review status, and last-reviewed date
 
 When multiple public names clearly refer to the same actor, the project keeps one canonical name and preserves important alternate names as aliases. Where attribution is disputed or incomplete, the wording is intentionally conservative.
+
+The JSON export keeps aliases and tags as arrays. The CSV export represents those fields as semicolon-separated values. Records that have not yet been checked against a direct source are explicitly marked `needs-review` rather than presented as fully verified.
+
+## Dataset Status
+
+The atlas combines individually reviewed records with a larger imported research backlog. A `reviewStatus` value of `reviewed` means the entry has been checked against the linked source; `needs-review` means its classification, origin, summary, and citation still require manual verification. The presence of an actor in the dataset should not be interpreted as a legal finding or definitive attribution.
 
 ## Source Families
 
@@ -82,6 +89,7 @@ If you want to add or update an entry:
 2. Keep attribution language conservative and source-backed.
 3. Update [`src/data/groups.js`](./src/data/groups.js).
 4. Regenerate the public exports with `npm run export:data`.
+5. Run `npm run check` before submitting the change.
 
 ## Local Development
 
@@ -97,3 +105,15 @@ If you update the dataset and want to refresh the downloadable files:
 ```bash
 npm run export:data
 ```
+
+Production builds regenerate and validate both public exports automatically:
+
+```bash
+npm run build
+```
+
+Node.js 24 or newer is required.
+
+## License
+
+No software or dataset license has been selected yet. Public source availability does not by itself grant reuse rights. A code license and dataset license should be chosen by the project owner before describing the repository as open source or inviting redistribution.

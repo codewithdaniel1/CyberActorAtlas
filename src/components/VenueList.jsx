@@ -29,7 +29,7 @@ function Skeletons() {
   ));
 }
 
-export default function VenueList({ venues, selectedVenue, onSelectVenue, loading, searchQuery }) {
+export default function VenueList({ venues, selectedVenue, onSelectVenue, loading, searchQuery, error }) {
   const selectedRef = useRef(null);
   const hasSearch = searchQuery.trim().length > 0;
 
@@ -84,8 +84,12 @@ export default function VenueList({ venues, selectedVenue, onSelectVenue, loadin
       </div>
 
       {/* List */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
-        {loading && venues.length === 0 ? (
+      <div className="venue-list" style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
+        {error ? (
+          <div className="dataset-error" role="alert">
+            The actor dataset could not be loaded. Refresh the page to try again.
+          </div>
+        ) : loading && venues.length === 0 ? (
           <Skeletons />
         ) : venues.length === 0 ? (
           <div style={{

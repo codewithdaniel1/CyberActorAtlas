@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { GROUPS, getDisplayName, getTypeMeta, hasMapLocation } from '../data/groups.js';
+import { getDisplayName, getTypeMeta, hasMapLocation } from '../data/groups.js';
 
 // Light tile layer
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
@@ -168,6 +168,9 @@ function multiPopupHTML(groups) {
       <div style="max-height:180px;overflow-y:auto;scrollbar-width:thin;">
         ${rows}
       </div>
+      <div style="font-size:9px;color:#626282;margin-top:7px;">
+        Click the marker again to cycle through actors at this location.
+      </div>
     </div>
   `;
 }
@@ -176,14 +179,23 @@ function buildPopupHTML(groups) {
   return groups.length === 1 ? singlePopupHTML(groups[0]) : multiPopupHTML(groups);
 }
 
-export default function MapView({ venues, selectedVenue, onSelectVenue, onBoundsChange, searchActive, activeFilter }) {
+export default function MapView({ venues, allVenues, selectedVenue, onSelectVenue, onBoundsChange, searchActive, activeFilter }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
+  const selectedVenueRef = useRef(selectedVenue);
+  const onSelectVenueRef = useRef(onSelectVenue);
+  const venuesRef = useRef(venues);
   // Keyed by "lat,lng" instead of actor id — one entry per unique coordinate
   const layersRef = useRef({});
   const searchKey = venues.map((g) => g.id).sort().join('|');
   // Prevents the filter-zoom effect from firing on the initial mount
   const filterInitRef = useRef(false);
+
+  useEffect(() => {
+    selectedVenueRef.current = selectedVenue;
+    onSelectVenueRef.current = onSelectVenue;
+    venuesRef.current = venues;
+  }, [selectedVenue, onSelectVenue, venues]);
 
   // ── Initialise map ─────────────────────────────────────────────
   useEffect(() => {
@@ -255,8 +267,16 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
         const entry = layersRef.current[key];
         entry.groups = groups;
         entry.marker.setPopupContent(buildPopupHTML(groups));
-        // Keep selected state; selectedVenue effect will correct it immediately after
-        entry.marker.setIcon(makeLocationIcon(primary, false, count));
+        entry.marker.setIcon(makeLocationIcon(
+          primary,
+          groups.some((group) => group.id === selectedVenueRef.current?.id),
+          count,
+        ));
+        entry.halo.setRadius(primary.scope === 'Global' ? 22 : 16);
+        entry.halo.setStyle({
+          fillColor: color,
+          fillOpacity: primary.scope === 'Global' ? 0.14 : 0.09,
+        });
         return;
       }
 
@@ -276,8 +296,17 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
         title: count === 1 ? getDisplayName(primary) : `${count} actors`,
       }).addTo(map);
 
-      // Clicking selects the primary (first) actor at this location
-      marker.on('click', () => onSelectVenue(primary));
+      const entry = { marker, halo, groups };
+
+      // Repeated clicks cycle through actors that share a coordinate. Reading
+      // from entry.groups also prevents stale selections after filtering.
+      marker.on('click', () => {
+        const currentIndex = entry.groups.findIndex(
+          (group) => group.id === selectedVenueRef.current?.id,
+        );
+        const nextIndex = (currentIndex + 1) % entry.groups.length;
+        onSelectVenueRef.current(entry.groups[nextIndex]);
+      });
 
       marker.bindPopup(buildPopupHTML(groups), {
         closeButton: false,
@@ -288,7 +317,7 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
       marker.on('mouseover', () => marker.openPopup());
       marker.on('mouseout', () => marker.closePopup());
 
-      layersRef.current[key] = { marker, halo, groups };
+      layersRef.current[key] = entry;
     });
   }, [venues, onSelectVenue]);
 
@@ -310,11 +339,11 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
   // ── Fit bounds to search results ────────────────────────────────
   useEffect(() => {
     const map = mapRef.current;
-    const mappable = venues.filter(hasMapLocation);
+    const mappable = venuesRef.current.filter(hasMapLocation);
     if (!map || !searchActive || mappable.length === 0) return;
     const bounds = L.latLngBounds(mappable.map((g) => [g.lat, g.lng]));
     map.fitBounds(bounds, { padding: [36, 36], maxZoom: mappable.length === 1 ? 5 : 4 });
-  }, [searchActive, searchKey, venues]);
+  }, [searchActive, searchKey]);
 
   // ── Zoom to fit category when filter changes ────────────────────
   useEffect(() => {
@@ -327,12 +356,12 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
     const map = mapRef.current;
     if (!map) return;
 
-    if (activeFilter === 'all' || activeFilter === 'decentralized') {
+    if (activeFilter === 'all' || activeFilter === 'decentralized' || activeFilter === 'unknown') {
       map.flyTo(INITIAL_CENTER, INITIAL_ZOOM, { duration: 1.0 });
       return;
     }
 
-    const targets = GROUPS.filter((g) => g.type === activeFilter && hasMapLocation(g));
+    const targets = allVenues.filter((g) => g.type === activeFilter && hasMapLocation(g));
     if (targets.length === 0) return;
 
     if (targets.length === 1) {
@@ -341,7 +370,7 @@ export default function MapView({ venues, selectedVenue, onSelectVenue, onBounds
       const bounds = L.latLngBounds(targets.map((g) => [g.lat, g.lng]));
       map.fitBounds(bounds, { padding: [60, 60], maxZoom: 6, animate: true });
     }
-  }, [activeFilter]);
+  }, [activeFilter, allVenues]);
 
   return <div ref={containerRef} style={{ width: '100%', height: '100%' }} />;
 }

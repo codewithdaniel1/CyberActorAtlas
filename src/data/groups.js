@@ -14,6 +14,8 @@ export const GROUP_TYPES = [
   'access-brokerage',
 ];
 
+export const GROUP_SCOPES = ['Global', 'Regional', 'National', 'Local'];
+
 export const TYPE_META = {
   ransomware: {
     label: 'Ransomware',
@@ -1598,7 +1600,7 @@ export const GROUPS = [
   {
     id: 'scattered-spider',
     name: 'Scattered Spider',
-    type: 'state-linked-theft',
+    type: 'cybercrime',
     country: 'Unknown',
     city: null,
     lat: null,
@@ -1606,11 +1608,15 @@ export const GROUPS = [
     originPrecision: 'No confirmed attribution',
     firstSeen: 2022,
     scope: 'Global',
-    aliases: [],
-    tags: ['espionage', 'targeted intrusion', 'phishing'],
-    knownFor: 'Conducting state-sponsored intrusion and espionage campaigns attributed to Unknown.',
-    attribution: 'No confirmed national attribution published; classified as unknown origin pending further research.',
-    sourceLabel: 'ETDA Threat Actor Encyclopedia',
+    aliases: ['UNC3944', 'Octo Tempest', '0ktapus'],
+    tags: ['social engineering', 'identity attacks', 'data theft', 'extortion'],
+    knownFor: 'Using sophisticated social engineering against help desks and identity systems to steal data, extort victims, and sometimes deploy ransomware.',
+    attribution: 'CISA and the FBI describe Scattered Spider as a cybercriminal group. Public reporting does not support classifying it as a state-linked actor or assigning it a fixed national origin.',
+    attributionConfidence: 'high',
+    reviewStatus: 'reviewed',
+    lastReviewed: '2026-09-09',
+    sourceLabel: 'CISA / FBI Joint Cybersecurity Advisory AA23-320A',
+    sourceUrl: 'https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a',
   },
   {
     id: 'anchor-panda',
@@ -8381,19 +8387,23 @@ export const GROUPS = [
   {
     id: 'unc5537',
     name: 'UNC5537',
-    type: 'state-linked-theft',
-    country: 'Canada',
-    city: 'Ottawa',
-    lat: 45.4215,
-    lng: -75.6972,
-    originPrecision: 'Country-level attribution pinned to capital',
+    type: 'cybercrime',
+    country: 'Unknown',
+    city: null,
+    lat: null,
+    lng: null,
+    originPrecision: 'Multi-country membership reported; no defensible fixed origin',
     firstSeen: 2024,
     scope: 'Global',
     aliases: [],
-    tags: ['espionage', 'targeted intrusion', 'phishing'],
-    knownFor: 'Conducting state-sponsored intrusion and espionage campaigns attributed to Canada.',
-    attribution: 'ETDA Threat Actor Encyclopedia attributes UNC5537 to Canada; country-level geo used for map pin.',
-    sourceLabel: 'ETDA Threat Actor Encyclopedia',
+    tags: ['credential theft', 'cloud data theft', 'extortion', 'Snowflake'],
+    knownFor: 'Compromising Snowflake customer instances with previously stolen credentials, stealing data, and attempting to extort affected organizations.',
+    attribution: 'Mandiant describes UNC5537 as financially motivated and assesses that it includes members based in North America who collaborate with a member in Turkey. That reporting does not support a Canadian state attribution or a single-country map pin.',
+    attributionConfidence: 'high',
+    reviewStatus: 'reviewed',
+    lastReviewed: '2026-09-09',
+    sourceLabel: 'Mandiant, Jun 2024',
+    sourceUrl: 'https://cloud.google.com/blog/topics/threat-intelligence/unc5537-snowflake-data-theft-extortion',
   },
   {
     id: 'yanbian-gang',
@@ -8455,6 +8465,15 @@ export function hasMapLocation(group) {
   return Number.isFinite(group.lat) && Number.isFinite(group.lng);
 }
 
+export function isDecentralizedOrigin(group) {
+  const precision = String(group.originPrecision ?? '').toLowerCase();
+  return group.country === 'No fixed origin' || precision.includes('decentralized');
+}
+
+export function isUnknownOrigin(group) {
+  return !hasMapLocation(group) && !isDecentralizedOrigin(group);
+}
+
 export function getLocationLabel(group) {
   if (!hasMapLocation(group)) return group.originPrecision;
   return `${group.city}, ${group.country}`;
@@ -8481,6 +8500,6 @@ export function getDisplayName(group) {
 
 export function scopeWeight(scope) {
   if (scope === 'Global') return 3;
-  if (scope === 'Regional') return 2;
+  if (scope === 'Regional' || scope === 'National') return 2;
   return 1;
 }
